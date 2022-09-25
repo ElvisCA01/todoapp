@@ -13,7 +13,7 @@ import {FormsModule} from "@angular/forms";
     AppComponent,
     HeaderComponent,
     SidebarComponent,
-    TodoCardComponent
+    TodoCardComponent,
   ],
   imports: [
     BrowserModule,

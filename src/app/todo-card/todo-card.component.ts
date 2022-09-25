@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterContentInit, OnChanges,SimpleChanges, SimpleChange, HostListener} from '@angular/core';
+
+
 
 interface Task{
   done: boolean,
   tittle: string
 }
+
 
 @Component({
   selector: 'app-todo-card',
@@ -18,7 +21,10 @@ export class TodoCardComponent implements OnInit {
 
   inputTask = 'Nueva tarea';
 
+  editing:boolean=false;
+
   constructor() {
+
   }
 
   ngOnInit(): void {
@@ -38,11 +44,16 @@ export class TodoCardComponent implements OnInit {
   }
 
   deleteTask(task: Task) {
-    // TODO(HACER EL ELIMINAR)
     const index: number = this.tasks.indexOf(task);
     if(index !== -1){
       this.tasks.splice(index, 1);
     }
     console.log('Eliminando  ${task}')
   }
+
+
+//Prueba
+
+
+
 }
