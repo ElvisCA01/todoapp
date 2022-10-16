@@ -58,6 +58,7 @@ export class TodoCardComponent implements OnInit {
       console.log(this.tasks);
     })
 
+
     //this.tasks.push({tittle: "Tarea predeterminado no hecha", done: false});
     //this.tasks.push({tittle: "Tarea predeterminado hecha", done: true});
 
