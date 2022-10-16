@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {firstValueFrom, map, Observable} from "rxjs";
+import {firstValueFrom} from "rxjs";
 import {Task, TasksResponse} from "./interfaces";
 
 
@@ -24,6 +24,27 @@ export class TasksAPIService {
     return response.records.map((it) => {
       return {tittle: it.fields.Name, done: it.fields.Status === 'Done'}
     })
+  }
+
+
+  async createTasks(task: Task): Promise<void> {
+    await firstValueFrom(this.httpClient.post<TasksResponse>('https://api.airtable.com/v0/appjGyT6sO9DnARrP/Tasks',
+      {
+        "records": [
+          {
+            "fields": {
+              "Name": task.tittle,
+              "Status": task.done ? "Done" : "In progress"
+            }
+          },
+        ]
+      },
+      {
+      headers: {
+        Authorization: 'Bearer keygsp15imhWlB0TT'
+      }
+    }))
+
   }
 
   /*

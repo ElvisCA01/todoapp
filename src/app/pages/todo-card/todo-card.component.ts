@@ -36,9 +36,9 @@ export class TodoCardComponent implements OnInit {
 
   }
 
-  addTask() {
-    this.tasks.push({tittle: this.inputTask, done: false});
-
+  async addTask() {
+    await this.TasksApi.createTasks({tittle: this.inputTask, done: false})
+    this.tasks = await this.TasksApi.getTasks()
   }
 
   deleteTask(task: Task) {
