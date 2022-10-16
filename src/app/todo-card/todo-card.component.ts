@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterContentInit, OnChanges,SimpleChanges, SimpleChange, HostListener} from '@angular/core';
+import { Component, OnInit,} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 
 
 
@@ -6,6 +7,22 @@ interface Task{
   done: boolean,
   tittle: string
 }
+
+  export interface Fields {
+    Status: string;
+    Name: string;
+  }
+
+  export interface Record {
+    id: string;
+    createdTime: Date;
+    fields: Fields;
+  }
+
+  export interface TasksResponse {
+    records: Record[];
+  }
+
 
 
 @Component({
@@ -23,13 +40,26 @@ export class TodoCardComponent implements OnInit {
 
   editing:boolean=false;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
 
   }
 
   ngOnInit(): void {
-    this.tasks.push({tittle: "Tarea predeterminado no hecha", done: false});
-    this.tasks.push({tittle: "Tarea predeterminado hecha", done: true});
+    const response = this.httpClient.get<TasksResponse>('https://api.airtable.com/v0/appjGyT6sO9DnARrP/Tasks?maxRecords=100&view=Grid%20view',{
+        headers: {
+          Authorization: 'Bearer keygsp15imhWlB0TT'
+        }
+      })
+
+    response.subscribe((it)=> {
+      this.tasks = it.records.map((it)=>{
+        return {tittle: it.fields.Name, done: it.fields.Status === 'Done'}
+      });
+      console.log(this.tasks);
+    })
+
+    //this.tasks.push({tittle: "Tarea predeterminado no hecha", done: false});
+    //this.tasks.push({tittle: "Tarea predeterminado hecha", done: true});
 
   }
 
@@ -48,11 +78,10 @@ export class TodoCardComponent implements OnInit {
     if(index !== -1){
       this.tasks.splice(index, 1);
     }
-    console.log('Eliminando  ${task}')
   }
 
 
-//Prueba
+
 
 
 
